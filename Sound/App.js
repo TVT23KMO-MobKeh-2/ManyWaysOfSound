@@ -1,10 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import First from './screens/First'
+import Second from './screens/Second'
+import Third from './screens/Third'
+import Fourth from './screens/Fourth'
+import StartScreen from './screens/StartScreen'
 
 export default function App() {
+  const [selectedTask, setSelectedTask] = useState(null);
+
+  const renderTask = () => {
+    switch (selectedTask) {
+      case 'First':
+        return <First onBack={() => setSelectedTask(null)} />;
+      case 'Second':
+        return <Second onBack={() => setSelectedTask(null)} />;
+      case 'Third':
+        return <Third onBack={() => setSelectedTask(null)} />;
+      case 'Fourth':
+        return <Fourth onBack={() => setSelectedTask(null)} />;
+      default:
+        return <StartScreen onNavigate={setSelectedTask} />;
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      {renderTask()} 
       <StatusBar style="auto" />
     </View>
   );
