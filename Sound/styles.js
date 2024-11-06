@@ -30,6 +30,24 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         margin: 10,
       },
+      grid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: '80%',
+        justifyContent: 'center',
+      },
+      card: {
+        width: '25%',
+        height: 60,
+        margin: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 8,
+        backgroundColor: '#4A90E2',
+      },
+      flippedCard: {
+        backgroundColor: '#50E3C2',
+      },
   });
   
 export default styles;
