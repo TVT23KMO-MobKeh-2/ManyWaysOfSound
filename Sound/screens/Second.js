@@ -2,21 +2,36 @@ import { View, Text, Button, StyleSheet, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import * as Speech from 'expo-speech';
 import Slider from '@react-native-community/slider';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function Second({ onBack }) {
-    //Tilamuuttujat tekstille, äänen korkeudelle ja puheen nopeudelle
-    const [text2Speech, setText2Speech] = useState('')
-    const [pitch, setPitch] = useState(1.00)
-    const [rate, setRate] = useState(1.00)
+    // Tilamuuttujat tekstille, äänen korkeudelle ja puheen nopeudelle
+    const [text2Speech, setText2Speech] = useState('');
+    const [pitch, setPitch] = useState(1.00);
+    const [rate, setRate] = useState(1.00);
+    const [language, setLanguage] = useState("fi-FI"); // Alustetaan kieli suomeksi
+
+    // Kielet, jotka ovat käytettävissä valinnassa
+    const languages = [
+        { label: 'Suomi', value: 'fi-FI' }, // Suomi
+        { label: 'English', value: 'en-US' }, // Englanti (Yhdysvallat)
+        { label: 'Español', value: 'es-ES' }, // Espanja
+        { label: 'Svenska', value: 'sv-SE' }, // Ruotsi
+    ];
 
     //funktio puhumiselle
     const speak = (text) => {
-        Speech.stop()//keskeytetään mahdollinen aiempi puhe
-        Speech.speak(text, { pitch: pitch, rate: rate }) //Puhutaan annettu teksti annetuilla asetuksilla
+        Speech.stop(); // keskeytetään mahdollinen aiempi puhe
+        Speech.speak(text, { language: language, pitch: pitch, rate: rate }); // Puhutaan annettu teksti annetuilla asetuksilla
     };
 
-    //renderöinti, jossa otsikko, äänenkorkeuden ja puhenopeuden arvot ja liukukytkimet niiden säätämiseen, tekstikenttä mihin voi syöttää halutun tekstin
-    //sekä nappi puhe-funktion kutsumiseen ja paluuseen.
+    // Kielen valinnan käsittelijä
+    const handleLanguageChange = (selectedValue) => {
+        setLanguage(selectedValue); // Asetetaan valittu kieli
+    };
+
+    // renderöinti, jossa otsikko, äänenkorkeuden ja puhenopeuden arvot ja liukukytkimet niiden säätämiseen, tekstikenttä mihin voi syöttää halutun tekstin
+    // sekä nappi puhe-funktion kutsumiseen ja paluuseen.
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Text to Speech</Text>
@@ -39,6 +54,13 @@ export default function Second({ onBack }) {
                 onValueChange={(value) => setRate(value)}
                 minimumTrackTintColor="#000000"
                 maximumTrackTintColor="#000000"
+            />
+            <Text>Select Language:</Text>
+            <RNPickerSelect
+                onValueChange={handleLanguageChange}
+                items={languages}
+                value={language}
+                placeholder={{ label: 'Select a language', value: null }}
             />
             <TextInput
                 style={{ marginBottom: 8 }}
